@@ -207,6 +207,8 @@ config() {
     --disable-sdl2
     --disable-doc
     --disable-postproc
+    --disable-encoder="hevc"
+    --disable-decoder="hevc"
   )
 
   if (( ! shared_libs )) args+=(--pkg-config-flags="--static")
