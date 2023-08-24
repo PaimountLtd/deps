@@ -85,7 +85,7 @@ package() {
   if [[ ${PACKAGE_NAME} != 'qt'* ]] {
     log_status "Cleanup unnecessary files"
 
-    rm -rf lib/^(*.dylib|libajantv*|*.so*|*.lib)(N)
+    rm -rf lib/^(*.dylib|libajantv*|ffmpeg|ffprobe|*.so*|*.lib)(N)
     rm -rf bin/^(*.exe|*.dll|*.pdb|swig)(N)
 
     if [[ -f bin/swig ]] {
