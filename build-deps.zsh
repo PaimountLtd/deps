@@ -86,7 +86,7 @@ package() {
     log_status "Cleanup unnecessary files"
 
     rm -rf lib/^(*.dylib|libajantv*|ffmpeg|ffprobe|*.so*|*.lib)(N)
-    rm -rf bin/^(*.exe|*.dll|*.pdb|swig)(N)
+    rm -rf bin/^(*.exe|*.dll|*.pdb|ffmpeg|ffprobe|swig)(N)
 
     if [[ -f bin/swig ]] {
       swig_lib=(share/swig/*(/))
