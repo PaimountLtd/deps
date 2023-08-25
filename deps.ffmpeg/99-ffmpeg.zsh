@@ -202,7 +202,6 @@ config() {
     --enable-librist
     --enable-libsrt
     --enable-shared
-    --disable-static
     --disable-libjack
     --disable-indev=jack
     --disable-outdev=sdl
@@ -213,7 +212,11 @@ config() {
   )
 
   if (( ! shared_libs )) args+=(--pkg-config-flags="--static")
-
+  else
+    args+=(
+      --disable-static
+    )
+  fi
   log_info "Config (%F{3}${target}%f)"
   cd "${dir}"
 
