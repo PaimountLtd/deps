@@ -2,9 +2,9 @@ autoload -Uz log_debug log_error log_info log_status log_output
 
 ## Dependency Information
 local name='aom'
-local version='3.5.0'
+local version='3.6.0'
 local url='https://aomedia.googlesource.com/aom.git'
-local hash='bcfe6fbfed315f83ee8a95465c654ee8078dbff9'
+local hash='3c65175b1972da4a1992c1dae2365b48d13f9a8d'
 local -a patches=(
   "windows ${0:a:h}/patches/libaom/0001-force-threading-shim-usage.patch \
   6fa9ca74001c5fa3a6521a2b4944be2a8b4350d31c0234aede9a7052a8f1890b"
@@ -55,7 +55,6 @@ config() {
   args=(
     ${cmake_flags}
     -DBUILD_SHARED_LIBS="${_onoff[(( shared_libs + 1 ))]}"
-    -DAOM_TARGET_CPU="${arch}"
     -DENABLE_DOCS=OFF
     -DENABLE_EXAMPLES=OFF
     -DENABLE_TESTDATA=OFF
@@ -65,7 +64,7 @@ config() {
   )
 
   case ${target} {
-    macos-arm64) args+=(-DCONFIG_RUNTIME_CPU_DETECT=0) ;;
+    macos-*) args+=(-DCONFIG_RUNTIME_CPU_DETECT=0 -DCMAKE_TOOLCHAIN_FILE="build/cmake/toolchains/${target_config[cmake_arch]}-macos.cmake") ;;
     windows-x*) args+=(-DCMAKE_TOOLCHAIN_FILE="build/cmake/toolchains/${target_config[cmake_arch]}-mingw-gcc.cmake")
   }
 
