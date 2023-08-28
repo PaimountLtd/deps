@@ -2,13 +2,15 @@ autoload -Uz log_debug log_error log_info log_status log_output
 
 ## Dependency Information
 local name='libpng'
-local version='1.6.38'
-local url='https://downloads.sourceforge.net/project/libpng/libpng16/1.6.38/libpng-1.6.38.tar.xz'
-local hash="${0:a:h}/checksums/libpng-1.6.38.tar.xz.sha256"
+local version='1.6.39'
+local url='https://downloads.sourceforge.net/project/libpng/libpng16/1.6.39/libpng-1.6.39.tar.xz'
+local hash="${0:a:h}/checksums/libpng-1.6.39.tar.xz.sha256"
 local -a patches=(
   "macos ${0:a:h}/patches/libpng/0001-enable-ARM-NEON-optimisations.patch \
   f9ce2b5f8b63ef6caa9ab0195d27c52563652da56ab53956ffa51b34ff90ad4d"
 )
+
+local -i shared_libs=0
 
 ## Build Steps
 setup() {
@@ -110,4 +112,22 @@ install() {
 
   cd "${dir}"
   progress cmake ${args}
+}
+
+fixup() {
+  cd "${dir}"
+
+  log_info "Fixup (%F{3}${target}%f)"
+  case ${target} {
+    macos*)
+      if [[ "${config}" == "Debug" ]] {
+        local _file
+        local -a _debug_files
+        _debug_files=("${target_config[output_dir]}"/lib/libpng16d.*(N))
+        for _file (${_debug_files}) {
+          mv "${_file}" "${_file//d./.}"
+        }
+      }
+      ;;
+  }
 }

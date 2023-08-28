@@ -3,14 +3,14 @@ name: build_deps
 on:
   push:
     branches:
-      - master
+      - streamlabs
     tags:
       - '20[2-9][0-9]-[0-9][0-9]-[0-9][0-9]'
   pull_request:
     paths-ignore:
       - '**.md'
     branches:
-      - master
+      - streamlabs
 
 jobs:
   ffmpeg-build:
@@ -106,7 +106,7 @@ jobs:
         id: seekingTesters
         if: ${{ github.event_name == 'pull_request' }}
         run: |
-          if [[ -n "$(curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -s "${{ github.event.pull_request.url }}" | jq -e '.labels[] | select(.name == "Seeking Testers")')" ]]; then
+          if [[ -n "$(curl -H "Authorization: Bearer ${{ secrets.RELEASE_TOKEN }}" -s "${{ github.event.pull_request.url }}" | jq -e '.labels[] | select(.name == "Seeking Testers")')" ]]; then
             echo "found=true" >> $GITHUB_OUTPUT
           else
             echo "found=false" >> $GITHUB_OUTPUT
@@ -141,7 +141,7 @@ jobs:
         id: seekingTesters
         if: ${{ github.event_name == 'pull_request' }}
         run: |
-          if [[ -n "$(curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -s "${{ github.event.pull_request.url }}" | jq -e '.labels[] | select(.name == "Seeking Testers")')" ]]; then
+          if [[ -n "$(curl -H "Authorization: Bearer ${{ secrets.RELEASE_TOKEN }}" -s "${{ github.event.pull_request.url }}" | jq -e '.labels[] | select(.name == "Seeking Testers")')" ]]; then
             echo "found=true" >> $GITHUB_OUTPUT
           else
             echo "found=false" >> $GITHUB_OUTPUT
@@ -165,10 +165,10 @@ jobs:
         include:
           - target: macos-arm64
             config: 'Release'
-            type: 'shared'
+            type: 'static'
           - target: macos-x86_64
             config: 'Release'
-            type: 'shared'
+            type: 'static'
     env:
       CACHE_REVISION: '3'
     defaults:
@@ -210,7 +210,7 @@ jobs:
         id: seekingTesters
         if: ${{ github.event_name == 'pull_request' }}
         run: |
-          if [[ -n "$(curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -s "${{ github.event.pull_request.url }}" | jq -e '.labels[] | select(.name == "Seeking Testers")')" ]]; then
+          if [[ -n "$(curl -H "Authorization: Bearer ${{ secrets.RELEASE_TOKEN }}" -s "${{ github.event.pull_request.url }}" | jq -e '.labels[] | select(.name == "Seeking Testers")')" ]]; then
             echo "found=true" >> $GITHUB_OUTPUT
           else
             echo "found=false" >> $GITHUB_OUTPUT
@@ -243,7 +243,7 @@ jobs:
         id: seekingTesters
         if: ${{ github.event_name == 'pull_request' }}
         run: |
-          if [[ -n "$(curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -s "${{ github.event.pull_request.url }}" | jq -e '.labels[] | select(.name == "Seeking Testers")')" ]]; then
+          if [[ -n "$(curl -H "Authorization: Bearer ${{ secrets.RELEASE_TOKEN }}" -s "${{ github.event.pull_request.url }}" | jq -e '.labels[] | select(.name == "Seeking Testers")')" ]]; then
             echo "found=true" >> $GITHUB_OUTPUT
           else
             echo "found=false" >> $GITHUB_OUTPUT
@@ -310,7 +310,7 @@ jobs:
         id: seekingTesters
         if: ${{ github.event_name == 'pull_request' }}
         run: |
-          if [[ -n "$(curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -s "${{ github.event.pull_request.url }}" | jq -e '.labels[] | select(.name == "Seeking Testers")')" ]]; then
+          if [[ -n "$(curl -H "Authorization: Bearer ${{ secrets.RELEASE_TOKEN }}" -s "${{ github.event.pull_request.url }}" | jq -e '.labels[] | select(.name == "Seeking Testers")')" ]]; then
             echo "found=true" >> $GITHUB_OUTPUT
           else
             echo "found=false" >> $GITHUB_OUTPUT
@@ -343,7 +343,7 @@ jobs:
         id: seekingTesters
         if: ${{ github.event_name == 'pull_request' }}
         run: |
-          if [[ -n "$(curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -s "${{ github.event.pull_request.url }}" | jq -e '.labels[] | select(.name == "Seeking Testers")')" ]]; then
+          if [[ -n "$(curl -H "Authorization: Bearer ${{ secrets.RELEASE_TOKEN }}" -s "${{ github.event.pull_request.url }}" | jq -e '.labels[] | select(.name == "Seeking Testers")')" ]]; then
             echo "found=true" >> $GITHUB_OUTPUT
           else
             echo "found=false" >> $GITHUB_OUTPUT
@@ -401,7 +401,7 @@ jobs:
         id: seekingTesters
         if: ${{ github.event_name == 'pull_request' }}
         run: |
-          if [[ -n "$(curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -s "${{ github.event.pull_request.url }}" | jq -e '.labels[] | select(.name == "Seeking Testers")')" ]]; then
+          if [[ -n "$(curl -H "Authorization: Bearer ${{ secrets.RELEASE_TOKEN }}" -s "${{ github.event.pull_request.url }}" | jq -e '.labels[] | select(.name == "Seeking Testers")')" ]]; then
             echo "found=true" >> $GITHUB_OUTPUT
           else
             echo "found=false" >> $GITHUB_OUTPUT
@@ -443,7 +443,7 @@ jobs:
         id: seekingTesters
         if: ${{ github.event_name == 'pull_request' }}
         run: |
-          if [[ -n "$(curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -s "${{ github.event.pull_request.url }}" | jq -e '.labels[] | select(.name == "Seeking Testers")')" ]]; then
+          if [[ -n "$(curl -H "Authorization: Bearer ${{ secrets.RELEASE_TOKEN }}" -s "${{ github.event.pull_request.url }}" | jq -e '.labels[] | select(.name == "Seeking Testers")')" ]]; then
             echo "found=true" >> $GITHUB_OUTPUT
           else
             echo "found=false" >> $GITHUB_OUTPUT
@@ -497,7 +497,7 @@ jobs:
           $LabelFound = try {
             $Params = @{
               Authentication = 'Bearer'
-              Token = (ConvertTo-SecureString '${{ secrets.GITHUB_TOKEN }}' -AsPlainText)
+              Token = (ConvertTo-SecureString '${{ secrets.RELEASE_TOKEN }}' -AsPlainText)
               Uri = '${{ github.event.pull_request.url }}'
               UseBasicParsing = $true
             }
@@ -568,7 +568,7 @@ jobs:
           $LabelFound = try {
             $Params = @{
               Authentication = 'Bearer'
-              Token = (ConvertTo-SecureString '${{ secrets.GITHUB_TOKEN }}' -AsPlainText)
+              Token = (ConvertTo-SecureString '${{ secrets.RELEASE_TOKEN }}' -AsPlainText)
               Uri = '${{ github.event.pull_request.url }}'
               UseBasicParsing = $true
             }
@@ -615,7 +615,7 @@ jobs:
           $LabelFound = try {
             $Params = @{
               Authentication = 'Bearer'
-              Token = (ConvertTo-SecureString '${{ secrets.GITHUB_TOKEN }}' -AsPlainText)
+              Token = (ConvertTo-SecureString '${{ secrets.RELEASE_TOKEN }}' -AsPlainText)
               Uri = '${{ github.event.pull_request.url }}'
               UseBasicParsing = $true
             }

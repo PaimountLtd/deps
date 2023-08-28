@@ -85,19 +85,23 @@ package() {
   if [[ ${PACKAGE_NAME} != 'qt'* ]] {
     log_status "Cleanup unnecessary files"
 
-    rm -rf lib/^(*.dylib|libajantv*|ffmpeg|ffprobe|*.so*|*.lib)(N)
+    rm -rf lib/^(*.dylib|libajantv*|*.a|ffmpeg|ffprobe|*.so*|*.lib|*.framework|*.dSYM|cmake)(N)
+    rm -rf lib/(libpcre*|libpng*)(N)
     rm -rf bin/^(*.exe|*.dll|*.pdb|ffmpeg|ffprobe|swig)(N)
 
     if [[ -f bin/swig ]] {
       swig_lib=(share/swig/*(/))
       pushd ${swig_lib:h}
-      ln -s ${swig_lib:t} CURRENT
+      ln -sf ${swig_lib:t} CURRENT
       popd
     }
 
-    if [[ -d share ]] rm -rf share/^(swig)(N)
+    if [[ -d share ]] rm -rf share/^(swig|cmake)(N)
     if [[ -d cmake ]] rm -rf cmake
     if [[ -d man ]] rm -rf man
+
+    mkdir -p share/obs-deps
+    echo "${current_date}" >! share/obs-deps/VERSION
   }
 
   log_status "Create archive ${filename}"

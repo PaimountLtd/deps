@@ -2,10 +2,13 @@ autoload -Uz log_debug log_error log_info log_status log_output
 
 ## Dependency Information
 local name='qt6'
-local version=6.3.1
-local url='https://download.qt.io/official_releases/qt/6.3/6.3.1'
+local version=6.4.3
+local url='https://download.qt.io/official_releases/qt/6.4/6.4.3'
 local hash="${0:a:h}/checksums"
-local -a patches=()
+local -a patches=(
+  "macos ${0:a:h}/patches/Qt6/mac/0001-QTBUG-106369.patch \
+    f96ce8408b03e752708c606df10d6473aeed78843a6acb0a90c05f0a9fc913af"
+)
 
 local -a qt_components=(
   'qtbase'
@@ -87,6 +90,7 @@ config() {
   local -a common_cmake_flags=(
     ${cmake_flags}
     -DBUILD_SHARED_LIBS="${_onoff[(( shared_libs + 1 ))]}"
+    -DFEATURE_rpath="${_onoff[(( shared_libs + 1 ))]}"
   )
   if (( ${+commands[ccache]} )) common_cmake_flags+=(-DQT_USE_CCACHE=ON)
 
@@ -116,7 +120,6 @@ config() {
     -DFEATURE_printpreviewdialog=OFF
     -DFEATURE_printpreviewwidget=OFF
     -DFEATURE_qmake=OFF
-    -DFEATURE_rpath=ON
     -DFEATURE_sql=OFF
     -DFEATURE_system_zlib=ON
     -DINPUT_libjpeg=qt
