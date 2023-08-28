@@ -55,12 +55,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Get Metadata
-        id: metadata
-        run: |
-          echo "version=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
-          echo "date=$(date +"%Y-%m-%d")" >> $GITHUB_OUTPUT
-
       - name: Setup Environment
         id: setup
         run: |
@@ -87,7 +81,7 @@ jobs:
 
           target='${{ matrix.target }}'
           artifact_name="ffmpeg-${target}-${{ github.sha }}"
-          file_name="${target%%-*}-ffmpeg-$(date +"%Y-%m-%d")-${target##*-}.tar.xz"
+          file_name="${target%%-*}-ffmpeg-${{ github.sha }}-${target##*-}.tar.xz"
 
           echo "artifactName=${artifact_name}" >> $GITHUB_OUTPUT
           echo "artifactFileName=${file_name}" >> $GITHUB_OUTPUT
@@ -191,7 +185,7 @@ jobs:
 
           target='${{ matrix.target }}'
           artifact_name="deps-${target}-${{ github.sha }}"
-          file_name="${target%%-*}-deps-$(date +"%Y-%m-%d")-${target##*-}.tar.xz"
+          file_name="${target%%-*}-deps-${{ github.sha }}-${target##*-}.tar.xz"
 
           echo "artifactName=${artifact_name}" >> $GITHUB_OUTPUT
           echo "artifactFileName=${file_name}" >> $GITHUB_OUTPUT
@@ -291,7 +285,7 @@ jobs:
 
           target='${{ matrix.target }}'
           artifact_name="qt5-${target}-${{ github.sha }}"
-          file_name="${target%%-*}-deps-qt5-$(date +"%Y-%m-%d")-${target##*-}.tar.xz"
+          file_name="${target%%-*}-deps-qt5-${{ github.sha }}-${target##*-}.tar.xz"
 
           echo "artifactName=${artifact_name}" >> $GITHUB_OUTPUT
           echo "artifactFileName=${file_name}" >> $GITHUB_OUTPUT
@@ -382,7 +376,7 @@ jobs:
 
           target='macos-universal'
           artifact_name="qt6-${target}-${{ github.sha }}"
-          file_name="${target%%-*}-deps-qt6-$(date +"%Y-%m-%d")-${target##*-}.tar.xz"
+          file_name="${target%%-*}-deps-qt6-${{ github.sha }}-${target##*-}.tar.xz"
 
           echo "artifactName=${artifact_name}" >> $GITHUB_OUTPUT
           echo "artifactFileName=${file_name}" >> $GITHUB_OUTPUT
@@ -649,7 +643,6 @@ jobs:
         id: metadata
         run: |
           echo "version=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
-          echo "date=$(date +"%Y-%m-%d")" >> $GITHUB_OUTPUT
 
       - name: 'Download build artifacts'
         uses: actions/download-artifact@v3
