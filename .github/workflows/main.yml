@@ -55,6 +55,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Get Metadata
+        id: metadata
+        run: |
+          echo "version=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
+          echo "date=$(date +"%Y-%m-%d")" >> $GITHUB_OUTPUT
+
       - name: Setup Environment
         id: setup
         run: |
@@ -113,6 +119,8 @@ jobs:
           type: ${{ matrix.type }}
           config: ${{ matrix.config }}
           cacheRevision: ${{ env.CACHE_REVISION }}
+        env:
+          tag_name: ${{ steps.metadata.outputs.version }}
 
       - name: Publish Build Artifacts
         if: ${{ success() && (github.event_name != 'pull_request' || steps.seekingTesters.outputs.found == 'true') }}

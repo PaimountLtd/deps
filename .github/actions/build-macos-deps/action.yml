@@ -38,6 +38,11 @@ runs:
 
         deps_hash=$(cat ${{ github.workspace }}/deps.macos/*.zsh | sha256sum | cut -d " " -f 1)
         echo "hash=${deps_hash}" >> $GITHUB_OUTPUT
+    - name: Get Metadata
+      id: metadata
+      run: |
+        echo "version=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
+        echo "date=$(date +"%Y-%m-%d")" >> $GITHUB_OUTPUT
 
     - name: Restore macOS Dependencies from Cache
       id: deps-cache
@@ -55,9 +60,12 @@ runs:
     - name: Install macOS Dependencies
       if: ${{ steps.deps-cache.outputs.cache-hit == 'true' }}
       shell: zsh {0}
-      run: ./build-deps.zsh --skip-build --skip-unpack --target ${{ inputs.target }} --config ${{ inputs.config }} --${{ inputs.type }}
-
+      run: ./build-deps.zsh
+      env:
+        tag_name: ${{ steps.metadata.outputs.version }}
     - name: Build and Install macOS Dependencies
       if: ${{ steps.deps-cache.outputs.cache-hit != 'true' }}
       shell: zsh {0}
       run: ./build-deps.zsh --target ${{ inputs.target }} --config ${{ inputs.config }} --${{ inputs.type }}
+      env:
+        tag_name: ${{ steps.metadata.outputs.version }}
