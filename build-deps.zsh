@@ -101,7 +101,7 @@ package() {
     if [[ -d man ]] rm -rf man
 
     mkdir -p share/obs-deps
-    echo "${current_date}" >! share/obs-deps/VERSION
+    echo "${tag_name}" >! share/obs-deps/VERSION
   }
 
   log_status "Create archive ${filename}"
