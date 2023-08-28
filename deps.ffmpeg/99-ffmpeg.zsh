@@ -200,6 +200,8 @@ config() {
     --enable-libvpx
     --enable-librist
     --enable-libsrt
+    --enable-shared
+    --disable-static
     --disable-libjack
     --disable-indev=jack
     --disable-sdl2
@@ -211,11 +213,7 @@ config() {
 
   if (( ! shared_libs )) {
     args+=(--pkg-config-flags="--static")
-  } else {
-    args+=(
-      --enable-shared 
-      --disable-static )
-  }
+  } 
 
   log_info "Config (%F{3}${target}%f)"
   cd "${dir}"
@@ -287,7 +285,7 @@ function _fixup_ffmpeg() {
       fix_rpaths "${target_config[output_dir]}"/lib/lib(sw|av|postproc)*.dylib
       ;;
     windows-x*)
-      mv "${target_config[output_dir]}"/bin/(sw|av|postproc)*.lib "${target_config[output_dir]}"/lib
+      mv "${target_config[output_dir]}"/lib/(sw|av|postproc)*.lib "${target_config[output_dir]}"/lib
 
       if (( ! shared_libs )) { autoload -Uz restore_dlls && restore_dlls }
       ;;

@@ -38,12 +38,6 @@ runs:
 
         deps_hash=$(cat ${{ github.workspace }}/deps.macos/*.zsh | sha256sum | cut -d " " -f 1)
         echo "hash=${deps_hash}" >> $GITHUB_OUTPUT
-    - name: Get Metadata
-      id: metadata
-      shell: bash
-      run: |
-        echo "version=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
-        echo "date=$(date +"%Y-%m-%d")" >> $GITHUB_OUTPUT
 
     - name: Restore macOS Dependencies from Cache
       id: deps-cache
