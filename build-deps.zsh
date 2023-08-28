@@ -72,9 +72,9 @@ run_stages() {
 package() {
   autoload -Uz log_info log_status
   if [[ ${PACKAGE_NAME} == 'qt'* ]] {
-    local filename="${target%%-*}-deps-${PACKAGE_NAME}-${tag_name}-${target_config[arch]}.tar.xz"
+    local filename="${target%%-*}-deps-${PACKAGE_NAME}-${github_hash}-${target_config[arch]}.tar.xz"
   } else {
-    local filename="${target%%-*}-${PACKAGE_NAME}-${tag_name}-${target_config[arch]}.tar.xz"
+    local filename="${target%%-*}-${PACKAGE_NAME}-${github_hash}-${target_config[arch]}.tar.xz"
   }
 
   pushd ${PWD}
@@ -101,7 +101,7 @@ package() {
     if [[ -d man ]] rm -rf man
 
     mkdir -p share/obs-deps
-    echo "${tag_name}" >! share/obs-deps/VERSION
+    echo "${github_hash}" >! share/obs-deps/VERSION
   }
 
   log_status "Create archive ${filename}"
