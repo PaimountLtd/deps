@@ -201,7 +201,6 @@ config() {
     --enable-libvpx
     --enable-librist
     --enable-libsrt
-    --enable-shared
     --disable-libjack
     --disable-indev=jack
     --disable-outdev=sdl
@@ -214,6 +213,7 @@ config() {
   if (( ! shared_libs )) args+=(--pkg-config-flags="--static")
   else
     args+=(
+      --enable-shared
       --disable-static
     )
   fi
