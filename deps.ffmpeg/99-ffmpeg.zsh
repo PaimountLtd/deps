@@ -210,13 +210,14 @@ config() {
     --disable-decoder="hevc"
   )
 
-  if (( ! shared_libs )) args+=(--pkg-config-flags="--static")
-  else
+  if (( ! shared_libs )) {
+    args+=(--pkg-config-flags="--static")
+  } else {
     args+=(
-      --enable-shared
-      --disable-static
-    )
-  fi
+      --enable-shared 
+      --disable-static )
+  }
+
   log_info "Config (%F{3}${target}%f)"
   cd "${dir}"
 
