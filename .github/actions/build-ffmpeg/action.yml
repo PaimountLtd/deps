@@ -76,9 +76,3 @@ runs:
       if: ${{ steps.ffmpeg-cache.outputs.cache-hit != 'true' }}
       shell: zsh {0}
       run: ./build-ffmpeg.zsh --target ${{ inputs.target }} --config ${{ inputs.config }} --${{ inputs.type }}
-
-    - name: Archive build folder
-      uses: actions/upload-artifact@v3
-      with:
-        name: ${{ inputs.target }}-ffmpeg-build-${{ inputs.type }}-${{ steps.ffmpeg-env-setup.outputs.hash }}-${{ inputs.cacheRevision }}
-        path: ${{ github.workspace }}/*_build_temp/FFmpeg*/*
