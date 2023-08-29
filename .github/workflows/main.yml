@@ -317,6 +317,8 @@ jobs:
           config: ${{ matrix.config }}
           qtVersion: 5
           cacheRevision: ${{ env.CACHE_REVISION }}
+        env:
+          github_hash: ${{ github.sha }}
 
       - name: Publish Build Artifacts
         if: ${{ success() && (github.event_name != 'pull_request' || steps.seekingTesters.outputs.found == 'true') }}
@@ -408,6 +410,8 @@ jobs:
           config: Release
           qtVersion: 6
           cacheRevision: ${{ env.CACHE_REVISION }}
+        env:
+            github_hash: ${{ github.sha }}
 
       - name: Publish Build Artifacts
         if: ${{ success() && (github.event_name != 'pull_request' || steps.seekingTesters.outputs.found == 'true') }}
