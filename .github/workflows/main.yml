@@ -718,10 +718,9 @@ jobs:
             mv macos-deps-${{ steps.metadata.outputs.version }}-${arch}.tar.xz ${{ github.workspace }}
 
             popd > /dev/null
+            mv ${{ github.workspace }}/qt5-macos-${arch}-*/*.tar.xz ${{ github.workspace }}/macos-deps-qt5-${{ steps.metadata.outputs.version }}-${arch}.tar.xz
+            mv ${{ github.workspace }}/qt6-macos-${arch}-*/*.tar.xz ${{ github.workspace }}/macos-deps-qt6-${{ steps.metadata.outputs.version }}-${arch}.tar.xz
           done
-
-          mv ${{ github.workspace }}/qt5-macos-*/*.tar.xz ${{ github.workspace }}
-          mv ${{ github.workspace }}/qt6-macos-*/*.tar.xz ${{ github.workspace }}
 
       - name: 'Generate Checksums'
         run: |
