@@ -285,7 +285,7 @@ function _fixup_ffmpeg() {
       fix_rpaths "${target_config[output_dir]}"/lib/lib(sw|av|postproc)*.dylib
       ;;
     windows-x*)
-      mv "${target_config[output_dir]}"/lib/(sw|av|postproc)*.lib "${target_config[output_dir]}"/lib
+      mv "${target_config[output_dir]}"/bin/(sw|av|postproc)*.lib "${target_config[output_dir]}"/lib
 
       if (( ! shared_libs )) { autoload -Uz restore_dlls && restore_dlls }
       ;;
