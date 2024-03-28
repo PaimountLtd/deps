@@ -14,6 +14,8 @@ param(
     [switch] $SkipUnpack
 )
 
+Set-PSDebug -Trace 1
+
 $ErrorActionPreference = "Stop"
 
 if ( $DebugPreference -eq "Continue" ) {
