@@ -77,8 +77,28 @@ function Find-VisualStudio {
             Find-VisualStudio
     #>
 
-    $VisualStudioData = Get-CimInstance MSFT_VSInstance
-
+    try {
+        $VisualStudioData = Get-CimInstance -ClassName MSFT_VSInstance -ErrorAction Stop
+        Write-Output "Successfully retrieved Visual Studio instance data."
+    } catch {
+        Write-Output "Failed to retrieve Visual Studio instance data."
+        Write-Output "Error details: $_"
+        if ($_.Exception.InnerException) {
+            Write-Output "Inner exception details: $($_.Exception.InnerException.Message)"
+        }
+        # Optionally, log additional error properties
+        Write-Output "Exception Type: $($_.Exception.GetType().FullName)"
+        Write-Output "Error Message: $($_.Exception.Message)"
+        Write-Output "Error Category: $($_.CategoryInfo.Category)"
+        Write-Output "Error Target: $($_.CategoryInfo.TargetName)"
+        Write-Output "Error Target Type: $($_.CategoryInfo.TargetType)"
+        # To provide more context, you can include information about the current environment
+        Write-Output "PowerShell Version: $($PSVersionTable.PSVersion)"
+        Write-Output "OS Version: $([Environment]::OSVersion)"
+        # If you're interested in all loaded assemblies, which might be relevant for troubleshooting, uncomment the next line
+        # Write-Output "Loaded Assemblies: $([AppDomain]::CurrentDomain.GetAssemblies() | Out-String)"
+    }
+    
     # Prefer VS versions in this order:
     # 1. VS2022 Release (stable)
     # 2. VS2022 Preview
