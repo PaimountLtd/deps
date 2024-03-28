@@ -11,8 +11,25 @@ param(
     [switch] $SkipAll,
     [switch] $SkipBuild,
     [switch] $SkipDeps,
-    [switch] $SkipUnpack
+    [switch] $SkipUnpack,
+    [string] $LogFilePath = ".\build_log.txt" # Default log file path
 )
+
+# Function to log messages to both console and file
+function Log-Message {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Message,
+        [Parameter(Mandatory = $false)]
+        [string]$Path = $LogFilePath
+    )
+
+    # Write to console
+    Write-Host $Message
+
+    # Append to log file
+    $Message | Out-File -FilePath $Path -Append -Encoding UTF8
+}
 
 Set-PSDebug -Trace 1
 
